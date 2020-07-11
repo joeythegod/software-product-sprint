@@ -46,3 +46,23 @@ function getNameUsingFetch() {
     document.getElementById('hello-container').innerText = quote;
   });
 }
+
+function getComments() {
+    fetch('/data')  // sends a request to /my-data-url
+    .then(response => response.json()) // parses the response as JSON
+    .then((comments) => { // now we can reference the fields in myObject!
+    console.log(comments);
+    const commentsListElement = document.getElementById('comments-container');
+    commentsListElement.innerHTML = '';
+    for (let index in comments) {
+      commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
+    }
+    });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
