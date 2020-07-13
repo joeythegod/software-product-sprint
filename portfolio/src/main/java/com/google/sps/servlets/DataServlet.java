@@ -23,13 +23,21 @@ import java.util.*;
 
 import com.google.gson.Gson;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 class Comment{
     private String name;
     private String content;
-    Comment(String name, String content){
+    private long timestamp;
+    Comment(String name, String content, long timestamp){
         this.name = name;
         this.content = content;
+        this.timestamp = timestamp;
     }
 } 
 
@@ -37,20 +45,20 @@ class Comment{
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  
-  private List<Comment> comments = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // response.setContentType("text/html;");
-    // response.getWriter().println("Hello Joey!");
-    // List<Comment> comments = new ArrayList<>();
-    // Comment content1 = new Comment("Jack","Hi I am Jack");
-    // Comment content2 = new Comment("John","Hi I am John");
-    // Comment content3 = new Comment("Jimmy","Hi I am Jimmy");
-    // comments.add(content1);
-    // comments.add(content2);
-    // comments.add(content3);
+    List<Comment> comments = new ArrayList<>();
+    Query query = new Query("comment").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+        String name = (String) entity.getProperty("name");
+        String content = (String) entity.getProperty("content");
+        long timestamp = (long) entity.getProperty("timestamp");
+        Comment comment = new Comment(name, content, timestamp);
+        comments.add(comment);
+    }
     String json = convertToJsonUsingGson(comments);
 
     // Send the JSON as the response
@@ -62,9 +70,15 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = getParameter(request, "text-input-1", "");
     String content = getParameter(request, "text-input-2", "");
-    Comment comment = new Comment(name, content);
-    comments.add(comment);
-    response.sendRedirect("/index.html");
+    long timestamp = System.currentTimeMillis();
+
+    Entity commentEntity = new Entity("comment");
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("content", content);
+    commentEntity.setProperty("timestamp", timestamp);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+    response.sendRedirect("/index.html#message");
   }
 
     /**
