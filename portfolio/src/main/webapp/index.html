@@ -15,7 +15,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="style.css" rel="stylesheet" />
     </head>
-    <body id="page-top" onload="getNameUsingFetch();getComments()">
+    <body id="page-top" onload="getMessages();">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
@@ -31,6 +31,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#project">Project</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#gallery">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#blog">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#message">Message me</a></li>
                 </ul>
             </div>
         </nav>
@@ -55,7 +56,7 @@
                         <a class="social-icon" href="https://www.kaggle.com/joeychuang"><i class="fab fa-kaggle"></i></a>
                     </div>
                     <!-- <div id="hello-container"></div> -->
-                    <ul id="comments-container"></ul>
+                    <!-- <ul id="comments-container"></ul> -->
                 </div>
             </section>
             <hr class="m-0" />
@@ -237,7 +238,23 @@
                         </iframe>
                         <p>I tried to become a taiko youtuber, but I failed XD</p>
                     </div>
-                    
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Message-->
+            <section class="resume-section" id="message">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Message me</h2>
+                    <ul id="messages-container"></ul>
+                    <form action="/data" method="POST">
+                        <p>Your name:</p>
+                        <textarea name="text-input-1"></textarea>
+                        <br/><br/>
+                        <p>Message:</p>
+                        <textarea name="text-input-2"></textarea>
+                        <br/><br/>
+                        <input type="submit" />
+                    </form>
                 </div>
             </section>
         </div>

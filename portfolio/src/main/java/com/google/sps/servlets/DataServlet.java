@@ -38,22 +38,33 @@ class Comment{
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   
+  private List<Comment> comments = new ArrayList<>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // response.setContentType("text/html;");
     // response.getWriter().println("Hello Joey!");
-    List<Comment> comments = new ArrayList<>();
-    Comment content1 = new Comment("Jack","Hi I am Jack");
-    Comment content2 = new Comment("John","Hi I am John");
-    Comment content3 = new Comment("Jimmy","Hi I am Jimmy");
-    comments.add(content1);
-    comments.add(content2);
-    comments.add(content3);
+    // List<Comment> comments = new ArrayList<>();
+    // Comment content1 = new Comment("Jack","Hi I am Jack");
+    // Comment content2 = new Comment("John","Hi I am John");
+    // Comment content3 = new Comment("Jimmy","Hi I am Jimmy");
+    // comments.add(content1);
+    // comments.add(content2);
+    // comments.add(content3);
     String json = convertToJsonUsingGson(comments);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String name = getParameter(request, "text-input-1", "");
+    String content = getParameter(request, "text-input-2", "");
+    Comment comment = new Comment(name, content);
+    comments.add(comment);
+    response.sendRedirect("/index.html");
   }
 
     /**
@@ -64,6 +75,13 @@ public class DataServlet extends HttpServlet {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;
+  }
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }
 

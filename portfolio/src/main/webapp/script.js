@@ -41,28 +41,40 @@
     });
 })(jQuery); // End of use strict
 
-function getNameUsingFetch() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('hello-container').innerText = quote;
-  });
-}
+// function getNameUsingFetch() {
+//   fetch('/data').then(response => response.text()).then((quote) => {
+//     document.getElementById('hello-container').innerText = quote;
+//   });
+// }
 
-function getComments() {
-    fetch('/data')  // sends a request to /my-data-url
-    .then(response => response.json()) // parses the response as JSON
-    .then((comments) => { // now we can reference the fields in myObject!
-    console.log(comments);
-    const commentsListElement = document.getElementById('comments-container');
-    commentsListElement.innerHTML = '';
-    for (let index in comments) {
-      commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
-    }
-    });
-}
+// function getComments() {
+//     fetch('/data')  // sends a request to /my-data-url
+//     .then(response => response.json()) // parses the response as JSON
+//     .then((comments) => { // now we can reference the fields in myObject!
+//     console.log(comments);
+//     const commentsListElement = document.getElementById('comments-container');
+//     commentsListElement.innerHTML = '';
+//     for (let index in comments) {
+//       commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
+//     }
+//     });
+// }
 
 /** Creates an <li> element containing text. */
 function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+function getMessages() {
+    fetch('/data')  // sends a request to /my-data-url
+    .then(response => response.json()) // parses the response as JSON
+    .then((comments) => { // now we can reference the fields in myObject!
+    const commentsListElement = document.getElementById('messages-container');
+    commentsListElement.innerHTML = '';
+    for (let index in comments) {
+      commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
+    }
+    });
 }
