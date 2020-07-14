@@ -30,10 +30,17 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-class Comment{
+/**
+   * Define the object of a comment for message section.
+   * @param name The author of the comment.
+   * @param content The content of the comment.
+   * @param timestamp Automatically record the timestamp of the comment submit.
+   */
+private class Comment{
     private String name;
     private String content;
     private long timestamp;
+
     Comment(String name, String content, long timestamp){
         this.name = name;
         this.content = content;
@@ -81,15 +88,12 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/index.html#message");
   }
 
-    /**
-   * Converts a ServerStats instance into a JSON string using the Gson library. Note: We first added
-   * the Gson library dependency to pom.xml.
-   */
   private String convertToJsonUsingGson(List<Comment> comments) {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;
   }
+
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value == null) {
