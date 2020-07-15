@@ -1,9 +1,4 @@
-/*!
-    * Start Bootstrap - Resume v6.0.1 (https://startbootstrap.com/template-overviews/resume)
-    * Copyright 2013-2020 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-resume/blob/master/LICENSE)
-    */
-    (function ($) {
+(function ($) {
     "use strict"; // Start of use strict
 
     // Smooth scrolling using jQuery easing
@@ -41,20 +36,11 @@
     });
 })(jQuery); // End of use strict
 
-// function getComments() {
-//     fetch('/data')  // sends a request to /my-data-url
-//         .then(response => response.json()) // parses the response as JSON
-//         .then((comments) => { // now we can reference the fields in myObject!
-//             console.log(comments);
-//             const commentsListElement = document.getElementById('comments-container');
-//             commentsListElement.innerHTML = '';
-//             for (let index in comments) {
-//                 commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
-//             }
-//         });
-// }
-
-/** Creates an <li> element containing text. */
+/** 
+ * Creates an <li> element containing text.
+ * @param text The value of the element.
+ * @return The list-element.
+ */
 function createListElement(text) {
     const liElement = document.createElement('li');
     liElement.innerText = text;
