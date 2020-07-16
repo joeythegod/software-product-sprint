@@ -42,19 +42,19 @@
  * @return The list-element.
  */
 function createListElement(text) {
-    const liElement = document.createElement('li');
-    liElement.innerText = text;
-    return liElement;
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
 
 function getMessages() {
-    fetch('/data')  // sends a request to /my-data-url
-        .then(response => response.json()) // parses the response as JSON
-        .then((comments) => { // now we can reference the fields in myObject!
-            const commentsListElement = document.getElementById('messages-container');
-            commentsListElement.innerHTML = '';
-            for (let index in comments) {
-                commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
-            }
-        });
+  fetch('/data')  // sends a request to /my-data-url
+    .then(response => response.json()) // parses the response as JSON
+    .then((comments) => { // now we can reference the fields in myObject!
+      const commentsListElement = document.getElementById('messages-container');
+      commentsListElement.innerHTML = '';
+      for (let index in comments) {
+        commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
+      }
+    });
 }
