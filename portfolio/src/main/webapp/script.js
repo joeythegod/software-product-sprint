@@ -47,6 +47,12 @@ function createListElement(text) {
   return liElement;
 }
 
+function createImageElement(url) {
+  const imgElement = document.createElement('img');
+  imgElement.src = url;
+  return imgElement;
+}
+
 function getMessages() {
   fetch('/data')  // sends a request to /my-data-url
     .then(response => response.json()) // parses the response as JSON
@@ -54,7 +60,24 @@ function getMessages() {
       const commentsListElement = document.getElementById('messages-container');
       commentsListElement.innerHTML = '';
       for (let index in comments) {
-        commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
+        if (comments[index].name != null && comments[index].content != null){
+          commentsListElement.appendChild(createListElement(comments[index].name+' says '+comments[index].content));
+        }
+        if (comments[index].imageUrl != null){
+          commentsListElement.appendChild(createImageElement(comments[index].imageUrl));
+        }
       }
     });
+}
+
+function fetchBlobstoreUrlAndShowForm() {
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('my-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+      });
 }
