@@ -15,7 +15,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="style.css" rel="stylesheet" />
     </head>
-    <body id="page-top" onload="getMessages();">
+    <body id="page-top" onload="getMessages(); fetchBlobstoreUrlAndShowForm()">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
@@ -244,14 +244,17 @@
                 <div class="resume-section-content">
                     <h2 class="mb-5">Message me</h2>
                     <ul id="messages-container"></ul>
-                    <form action="/data" method="POST">
+                    <form id="my-form" class="hidden" method="POST" enctype="multipart/form-data">
                         <p>Your name:</p>
                         <textarea name="text-input-name"></textarea>
                         <br/><br/>
                         <p>Message:</p>
                         <textarea name="text-input-content"></textarea>
                         <br/><br/>
-                        <input type="submit" />
+                        <p>Upload an image:</p>
+                        <input type="file" name="imageUrl">
+                        <br/><br/>
+                        <button>Submit</button>
                     </form>
                 </div>
             </section>
