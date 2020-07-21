@@ -98,7 +98,7 @@ public final class FindMeetingQuery {
           TimeRange freeLeft = TimeRange.fromStartEnd(range.start(), meeting.start(), false);
           TimeRange freeRight = TimeRange.fromStartEnd(meeting.end(), range.end(), false);
           ranges.set(idx, freeLeft);
-          ranges.add(idx+1, freeRight);
+          ranges.add(idx + 1, freeRight);
           break;
         }
       }
