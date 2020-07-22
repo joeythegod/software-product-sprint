@@ -13,7 +13,6 @@
 // limitations under the License.
 
 package com.google.sps;
-
 import java.util.*;
 
 
@@ -25,32 +24,37 @@ public final class FindMeetingQuery {
     long duration = request.getDuration();
     List<TimeRange> freeTimeRange = Arrays.asList(TimeRange.WHOLE_DAY);
     ArrayList<TimeRange> possibleTimeRange = new ArrayList<>();
+    
 
     // no attendees
     if (attendees.size() == 0){
       return freeTimeRange;
     }
-
-    // impossible arrange a meeting
-    if (duration > TimeRange.WHOLE_DAY.duration()){
-      return Arrays.asList();
+    for (Event e: events){
+        possibleTimeRange.add(e.getWhen());
     }
+    List<TimeRange> newrange = Arrays.asList(possibleTimeRange);
+    Collections.sort(newrange, TimeRange.ORDER_BY_END);
+    // // impossible arrange a meeting
+    // if (duration > TimeRange.WHOLE_DAY.duration()){
+    //   return Arrays.asList();
+    // }
     
-    // split time range by meeting
-    for (Event event: events){
-      Set<String> requiredAttendees = new HashSet<>(event.getAttendees());
-      requiredAttendees.retainAll(attendees);
-      if (!requiredAttendees.isEmpty()){
-        freeTimeRange = splitTimeRange(freeTimeRange, event.getWhen());
-      }
-    }
+    // // split time range by meeting
+    // for (Event event: events){
+    //   Set<String> requiredAttendees = new HashSet<>(event.getAttendees());
+    //   requiredAttendees.retainAll(attendees);
+    //   if (!requiredAttendees.isEmpty()){
+    //     freeTimeRange = splitTimeRange(freeTimeRange, event.getWhen());
+    //   }
+    // }
 
-    // check duration is enough
-    for (TimeRange range: freeTimeRange){
-      if (range.duration() >= duration){
-        possibleTimeRange.add(range);
-      }
-    }
+    // // check duration is enough
+    // for (TimeRange range: freeTimeRange){
+    //   if (range.duration() >= duration){
+    //     possibleTimeRange.add(range);
+    //   }
+    // }
     return possibleTimeRange;
   }
 
